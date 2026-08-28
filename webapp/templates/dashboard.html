@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد مدیریت فروشگاه</title>
+    <!-- اتصال به فایل CSS نئون اختصاصی -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <h1>داشبورد مدیریت فروشگاه</h1>
+        </div>
+
+        <div class="menu-grid">
+            <!-- کارت درآمد -->
+            <div class="neon-card">
+                <div class="icon">💰</div>
+                <div>
+                    <div class="label">درآمد کل سیستم</div>
+                    <div class="desc">{{ "{:,.0f}".format(revenue) }} تومان</div>
+                </div>
+            </div>
+
+            <!-- کارت مشتریان -->
+            <div class="neon-card">
+                <div class="icon">👥</div>
+                <div>
+                    <div class="label">تعداد مشتریان</div>
+                    <div class="desc">{{ customers }} نفر ثبت شده در سیستم</div>
+                </div>
+            </div>
+
+            <!-- کارت هشدارهای انبار -->
+            <div class="neon-card" {% if low_stock %}style="border-color: rgba(236, 72, 153, 0.45); box-shadow: 0 4px 18px rgba(236, 72, 153, 0.25);"{% endif %}>
+                <div class="icon">⚠️</div>
+                <div>
+                    <div class="label">هشدارهای انبار</div>
+                    <div class="desc">
+                        {% if low_stock %}
+                            {{ low_stock|length }} محصول نیاز به شارژ موجودی دارند
+                        {% else %}
+                            وضعیت انبار کاملاً نرمال است
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 30px; font-size: 16px; margin-bottom: 15px;">۵ فاکتور اخیر:</h3>
+        <div class="menu-grid">
+            {% for inv in recent_invoices %}
+            <div class="neon-card">
+                <div class="icon">🧾</div>
+                <div>
+                    <div class="label">{{ inv.invoice_number }}</div>
+                    <div class="desc">
+                        {{ "{:,.0f}".format(inv.total_amount) }} تومان | 
+                        مشتری: {{ inv.customer.full_name }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="neon-card">
+                <div class="desc">فاکتوری ثبت نشده است.</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="footer-note">
+            پنل گرافیکی متصل به دیتابیس ربات
+        </div>
+    </div>
+</body>
+</html>

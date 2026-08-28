@@ -1,0 +1,8 @@
+python-telegram-bot[job-queue]==21.6
+SQLAlchemy==2.0.35
+Flask==3.0.3
+Pillow==10.4.0
+reportlab==4.2.5
+arabic-reshaper==3.0.0
+python-bidi==0.4.2
+matplotlib==3.9.2
